@@ -5,18 +5,17 @@ import MainPageComponent from './Components/MainPageComponent';
 import FooterComponent from './Components/FooterComponent';
 
 class App extends Component {
-
   render() {
     return (
       <div className="App">
-        <HeaderComponent/>
-        <NavComponent/>
-        <MainPageComponent/>
-        <FooterComponent/>
+        <p>testing</p>
+        <HeaderComponent />
+        <NavComponent />
+        <MainPageComponent />
+        <FooterComponent />
       </div>
     );
   }
-
 }
 
 export default App;
