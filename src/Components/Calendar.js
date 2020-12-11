@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
-// import { DateTimePicker } from '@material-ui/pickers';
+import TextField from '@material-ui/core/TextField';
 
 class Calendar extends Component {
   state = {
     gapi: window.gapi,
     DDocs: 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
     Scopes: 'https://www.googleapis.com/auth/calendar.readonly',
-    Event: {
+    start: {
+      dateTime: '',
+      timeZone: 'America/Chicago',
+    },
+    end: {
+      dateTime: '',
+      timeZone: 'America/Chicago',
+    },
+    attendees: [
+      {
+        Email: '',
+      },
+    ],
+    reminders: {
+      useDefault: false,
+      overrides: [
+        { method: 'email', minutes: 24 * 60 },
+        { method: 'popup', minutes: 10 },
+      ],
+    },
+    event: {
       summary: '',
       location: '',
       description: '',
-      start: {
-        dateTime: '',
-        timeZone: 'America/Chicago',
-      },
-      end: {
-        dateTime: '',
-        timeZone: 'America/Chicago',
-      },
       recurrence: [],
-      attendees: [
-        {
-          Email: '',
-        },
-      ],
-      reminders: {
-        useDefault: false,
-        overrides: [
-          { method: 'email', minutes: 24 * 60 },
-          { method: 'popup', minutes: 10 },
-        ],
-      },
     },
   };
 
@@ -52,11 +52,11 @@ class Calendar extends Component {
         .signIn()
         .then(() => {
           const event = {
-            summary: this.state.Event.summary,
-            location: this.state.Event.location,
-            description: this.state.Event.description,
+            summary: this.state.event.summary,
+            location: this.state.event.location,
+            description: this.state.event.description,
             start: {
-              dateTime: '2021-01-5T17:00:00-07:00',
+              dateTime: this.state.start.dateTime,
               timeZone: 'America/Chicago',
             },
             end: {
@@ -103,23 +103,21 @@ class Calendar extends Component {
 
   handleInputChangeFor = (propertyName) => (event) => {
     this.setState({
-      Event: {
-        ...this.state.Event,
+      event: {
+        ...this.state.event,
         [propertyName]: event.target.value,
       },
     });
   };
 
-  handleInputChangeDate = (propertyName) => (event) => {
+  handleInputChangeForDate = (key, propertyName) => (event) => {
+    //pulling value from date picker
     this.setState({
-      Event: {
-        ...this.state.Event,
-        start: {
-          [propertyName]: event.target.value,
-        },
+      [key]: {
+        ...this.state.start,
+        [propertyName]: event.target.value,
       },
     });
-    console.log(this.state.Event.start.dateTime);
   };
 
   render() {
@@ -128,29 +126,33 @@ class Calendar extends Component {
         <div>
           <input
             type="text"
-            value={this.state.Event.summary}
+            value={this.state.event.summary}
             onChange={this.handleInputChangeFor('summary')}
             placeholder="Summary"
           />
           <input
             type="text"
-            value={this.state.Event.location}
+            value={this.state.event.location}
             onChange={this.handleInputChangeFor('location')}
             placeholder="Location"
           />
           <input
             type="text"
-            value={this.state.Event.description}
+            value={this.state.event.description}
             onChange={this.handleInputChangeFor('description')}
             placeholder="Description"
           />
-          {/* <DateTimePicker
-            value={this.state.Event.start.dateTime}
-            disablePast
-            onChange={this.handleDateChange}
-            label="With Today Button"
-            showTodayButton
-          /> */}
+          <TextField
+            id="datetime-local"
+            label="Next Event"
+            type="datetime-local"
+            Value={this.state.start.dateTime}
+            defaultValue="2020-01-01T10:30"
+            onChange={this.handleInputChangeForDate('start', 'dateTime')}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
         <p>Click Here to join the biweekly meeting</p>
         <button onClick={this.handleClick}>Try this one jackass</button>
