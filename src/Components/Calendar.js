@@ -3,8 +3,6 @@ import Axios from 'axios';
 
 class Calendar extends Component {
   state = {
-    api: process.env.REACT_APP_API_KEY,
-    client: process.env.REACT_APP_CLIENT_ID,
     gapi: window.gapi,
     DDocs: 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
     Scopes: 'https://www.googleapis.com/auth/calendar.readonly',
@@ -39,8 +37,8 @@ class Calendar extends Component {
   handleClick = () => {
     this.state.gapi.load('client:auth2', () => {
       this.state.gapi.client.init({
-        apiKey: this.state.api,
-        clientId: this.state.client,
+        apiKey: process.env.REACT_APP_API_KEY,
+        clientId: process.env.REACT_APP_CLIENT_ID,
         discoveryDocs: this.state.DDocs,
         scope: this.state.Scopes,
       });
@@ -54,9 +52,9 @@ class Calendar extends Component {
         .signIn()
         .then(() => {
           const event = {
-            summary: this.state.Event.summary,
-            location: this.state.Event.location,
-            description: this.state.Event.description,
+            summary: 'Thursday Meeting',
+            location: 'Some Zoom Channel',
+            description: 'Bi-weekly event',
             start: {
               dateTime: '2021-01-5T09:00:00-07:00',
               timeZone: 'America/Chicago',
@@ -66,7 +64,7 @@ class Calendar extends Component {
               timeZone: 'America/Chicago',
             },
             recurrence: ['RRULE:FREQ=WEEKLY;COUNT=2'],
-            attendees: [{ Email: 'Johnny.C.Alexander@gmail.com' }],
+            attendees: [{ email: 'Johnny.C.Alexander@gmail.com' }],
             reminders: {
               useDefault: false,
               overrides: [
