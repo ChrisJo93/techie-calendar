@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+// import { DateTimePicker } from '@material-ui/pickers';
 
 class Calendar extends Component {
   state = {
@@ -52,11 +52,11 @@ class Calendar extends Component {
         .signIn()
         .then(() => {
           const event = {
-            summary: 'Thursday Meeting',
-            location: 'Some Zoom Channel',
-            description: 'Bi-weekly event',
+            summary: this.state.Event.summary,
+            location: this.state.Event.location,
+            description: this.state.Event.description,
             start: {
-              dateTime: '2021-01-5T09:00:00-07:00',
+              dateTime: '2021-01-5T17:00:00-07:00',
               timeZone: 'America/Chicago',
             },
             end: {
@@ -110,6 +110,18 @@ class Calendar extends Component {
     });
   };
 
+  handleInputChangeDate = (propertyName) => (event) => {
+    this.setState({
+      Event: {
+        ...this.state.Event,
+        start: {
+          [propertyName]: event.target.value,
+        },
+      },
+    });
+    console.log(this.state.Event.start.dateTime);
+  };
+
   render() {
     return (
       <div>
@@ -132,6 +144,13 @@ class Calendar extends Component {
             onChange={this.handleInputChangeFor('description')}
             placeholder="Description"
           />
+          {/* <DateTimePicker
+            value={this.state.Event.start.dateTime}
+            disablePast
+            onChange={this.handleDateChange}
+            label="With Today Button"
+            showTodayButton
+          /> */}
         </div>
         <p>Click Here to join the biweekly meeting</p>
         <button onClick={this.handleClick}>Try this one jackass</button>
