@@ -1,4 +1,5 @@
 import React from 'react';
+import Calendar from './Calendar';
 
 function App() {
   const gapi = window.gapi;
@@ -15,7 +16,6 @@ function App() {
 
   const handleClick = () => {
     gapi.load('client:auth2', () => {
-      console.log(process.env);
       gapi.client.init({
         apiKey: API_KEY,
         clientId: CLIENT_ID,
@@ -23,7 +23,7 @@ function App() {
         scope: SCOPES,
       });
 
-      gapi.client.load('calendar', 'v3', () => console.log('done!'));
+      gapi.client.load('calendar', 'v3', () => console.log('Client Loaded'));
 
       gapi.auth2
         .getAuthInstance()
@@ -82,6 +82,7 @@ function App() {
   return (
     <div className="App">
       <p>Click to add event to google calendar</p>
+      <Calendar />
       <button onClick={handleClick}>Here goes fucking nothing bruv</button>
     </div>
   );
