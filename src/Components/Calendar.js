@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
 
 class Calendar extends Component {
   state = {
@@ -13,11 +14,11 @@ class Calendar extends Component {
       description: '',
       start: {
         dateTime: '',
-        timeZone: '',
+        timeZone: 'America/Chicago',
       },
       end: {
         dateTime: '',
-        timeZone: '',
+        timeZone: 'America/Chicago',
       },
       recurrence: [],
       attendees: [
@@ -53,9 +54,9 @@ class Calendar extends Component {
         .signIn()
         .then(() => {
           const event = {
-            summary: 'Thursday Meeting',
-            location: 'Some Zoom Channel',
-            description: 'Bi-weekly event',
+            summary: this.state.Event.summary,
+            location: this.state.Event.location,
+            description: this.state.Event.description,
             start: {
               dateTime: '2021-01-5T09:00:00-07:00',
               timeZone: 'America/Chicago',
@@ -65,6 +66,7 @@ class Calendar extends Component {
               timeZone: 'America/Chicago',
             },
             recurrence: ['RRULE:FREQ=WEEKLY;COUNT=2'],
+            attendees: [{ Email: 'Johnny.C.Alexander@gmail.com' }],
             reminders: {
               useDefault: false,
               overrides: [
@@ -118,22 +120,20 @@ class Calendar extends Component {
             type="text"
             value={this.state.Event.summary}
             onChange={this.handleInputChangeFor('summary')}
+            placeholder="Summary"
           />
           <input
             type="text"
             value={this.state.Event.location}
             onChange={this.handleInputChangeFor('location')}
+            placeholder="Location"
           />
           <input
             type="text"
             value={this.state.Event.description}
             onChange={this.handleInputChangeFor('description')}
+            placeholder="Description"
           />
-          <input type="text" placeholder="Description" />
-          <input type="text" placeholder="Start" />
-          <input type="text" placeholder="End" />
-          <input type="text" placeholder="Recurrence " />
-          <input type="text" placeholder="attendees" />
         </div>
         <p>Click Here to join the biweekly meeting</p>
         <button onClick={this.handleClick}>Try this one jackass</button>
