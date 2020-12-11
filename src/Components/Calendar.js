@@ -65,7 +65,6 @@ class Calendar extends Component {
               timeZone: 'America/Chicago',
             },
             recurrence: ['RRULE:FREQ=WEEKLY;COUNT=2'],
-            attendees: [{ email: 'Johnny.C.Alexander@gmail.com' }],
             reminders: {
               useDefault: false,
               overrides: [
@@ -102,18 +101,41 @@ class Calendar extends Component {
     });
   };
 
+  handleInputChangeFor = (propertyName) => (event) => {
+    this.setState({
+      Event: {
+        ...this.state.Event,
+        [propertyName]: event.target.value,
+      },
+    });
+  };
+
   render() {
     return (
       <div>
         <div>
-          <input type="text" placeholder="Summary" />
-          <input type="text" placeholder="Location" />
+          <input
+            type="text"
+            value={this.state.Event.summary}
+            onChange={this.handleInputChangeFor('summary')}
+          />
+          <input
+            type="text"
+            value={this.state.Event.location}
+            onChange={this.handleInputChangeFor('location')}
+          />
+          <input
+            type="text"
+            value={this.state.Event.description}
+            onChange={this.handleInputChangeFor('description')}
+          />
           <input type="text" placeholder="Description" />
           <input type="text" placeholder="Start" />
           <input type="text" placeholder="End" />
           <input type="text" placeholder="Recurrence " />
           <input type="text" placeholder="attendees" />
         </div>
+        <p>Click Here to join the biweekly meeting</p>
         <button onClick={this.handleClick}>Try this one jackass</button>
       </div>
     );
