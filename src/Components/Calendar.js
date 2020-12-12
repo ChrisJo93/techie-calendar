@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MyCalendar from './MyCalendar';
+import { Button } from '@material-ui/core';
 
 //TO DO
 //New Users need to be able to add themselves to established events.
@@ -14,7 +15,7 @@ class Calendar extends Component {
   state = {
     gapi: window.gapi,
     DDocs: 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest',
-    Scopes: 'https://www.googleapis.com/auth/calendar.readonly',
+    Scopes: 'https://www.googleapis.com/auth/calendar.events',
     start: {
       dateTime: '',
       timeZone: 'America/Chicago',
@@ -45,6 +46,7 @@ class Calendar extends Component {
   };
 
   componentDidMount() {
+    //loading user's google events on page load
     this.state.gapi.load('client:auth2', () => {
       this.state.gapi.client.init({
         apiKey: process.env.REACT_APP_API_KEY,
@@ -72,9 +74,9 @@ class Calendar extends Component {
             .then((response) => {
               const events = response.result.items;
               this.setState({
-                events: events,
+                events: [events],
               });
-              console.log('EVENTS: ', events);
+              console.log('EVENTS: ', events, this.state.events);
             });
         });
     });
@@ -175,19 +177,19 @@ class Calendar extends Component {
     return (
       <div>
         <div>
-          <input
+          <TextField
             type="text"
             value={this.state.event.summary}
             onChange={this.handleInputChangeFor('summary')}
             placeholder="Summary"
           />
-          <input
+          <TextField
             type="text"
             value={this.state.event.location}
             onChange={this.handleInputChangeFor('location')}
             placeholder="Location"
           />
-          <input
+          <TextField
             type="text"
             value={this.state.event.description}
             onChange={this.handleInputChangeFor('description')}
@@ -216,11 +218,10 @@ class Calendar extends Component {
             }}
           />
         </div>
-        <p>Click Here to join the biweekly meeting</p>
-        <button onClick={this.handleClick}>Create New Event</button>
-        <form onSubmit={this.handleJoin}>
-          <button>Join Event</button>
-        </form>
+        <Button color="default" variant="contained" onClick={this.handleClick}>
+          Create New Event
+        </Button>
+
         <MyCalendar events={this.state.events} />
       </div>
     );
