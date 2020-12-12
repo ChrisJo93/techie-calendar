@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
+import MyCalendar from './MyCalendar';
 
 //TO DO
 //New Users need to be able to add themselves to established events.
@@ -40,7 +41,44 @@ class Calendar extends Component {
       description: '',
       recurrence: [],
     },
+    events: [],
   };
+
+  componentDidMount() {
+    this.state.gapi.load('client:auth2', () => {
+      this.state.gapi.client.init({
+        apiKey: process.env.REACT_APP_API_KEY,
+        clientId: process.env.REACT_APP_CLIENT_ID,
+        discoveryDocs: this.state.DDocs,
+        scope: this.state.Scopes,
+      });
+      this.state.gapi.client.load('calendar', 'v3', () =>
+        console.log('Client Loaded')
+      );
+
+      this.state.gapi.auth2
+        .getAuthInstance()
+        .signIn()
+        .then(() => {
+          this.state.gapi.client.calendar.events
+            .list({
+              calendarId: 'primary',
+              timeMin: new Date().toISOString(),
+              showDeleted: false,
+              singleEvents: true,
+              maxResults: 10,
+              orderBy: 'startTime',
+            })
+            .then((response) => {
+              const events = response.result.items;
+              this.setState({
+                events: events,
+              });
+              console.log('EVENTS: ', events);
+            });
+        });
+    });
+  }
 
   handleClick = () => {
     //function that signs user in and creates google calendar event.
@@ -87,9 +125,10 @@ class Calendar extends Component {
             resource: event,
           });
           request.execute((event) => {
-            console.log(event);
+            console.log('just before html link', event);
             window.open(event.htmlLink);
           });
+
           // get events that already exist for that user
           this.state.gapi.client.calendar.events
             .list({
@@ -102,6 +141,9 @@ class Calendar extends Component {
             })
             .then((response) => {
               const events = response.result.items;
+              this.setState({
+                events: events,
+              });
               console.log('EVENTS: ', events);
             });
           //
@@ -179,6 +221,7 @@ class Calendar extends Component {
         <form onSubmit={this.handleJoin}>
           <button>Join Event</button>
         </form>
+        <MyCalendar events={this.state.events} />
       </div>
     );
   }

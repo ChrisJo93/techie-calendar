@@ -1,18 +1,17 @@
-// import BigCalendar from 'react-big-calendar';
-// import React, { Component } from 'react';
-// import moment from 'moment';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import React from 'react';
+import moment from 'moment';
 
-// const localizer = BigCalendar.momentLocalizer(moment);
+const localizer = momentLocalizer(moment);
+const MyCalendar = (props) => (
+  <div>
+    <Calendar
+      localizer={localizer}
+      events={props.events}
+      startAccessor="start"
+      endAccessor="end"
+    />
+  </div>
+);
 
-// const MyCalendar = (props) => (
-//   <div>
-//     <BigCalendar
-//       localizer={localizer}
-//       events={myEventsList}
-//       startAccessor="start"
-//       endAccessor="end"
-//     />
-//   </div>
-// );
-
-// export default MyCalendar;
+export default MyCalendar;
