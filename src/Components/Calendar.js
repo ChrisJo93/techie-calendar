@@ -55,16 +55,17 @@ class Calendar extends Component {
             summary: this.state.event.summary,
             location: this.state.event.location,
             description: this.state.event.description,
+            colorId: 'blue',
             start: {
-              dateTime: this.state.start.dateTime,
+              dateTime: new Date(this.state.start.dateTime), //new Date allows google to register dateTime picker
               timeZone: 'America/Chicago',
             },
             end: {
-              dateTime: '2021-01-5T17:00:00-07:00',
+              dateTime: new Date(this.state.end.dateTime),
               timeZone: 'America/Chicago',
             },
-            recurrence: ['RRULE:FREQ=WEEKLY;COUNT=2'],
-            attendees: [{ email: 'Johnny.C.Alexander@gmail.com' }],
+            recurrence: ['RRULE:FREQ=WEEKLY;COUNT=1'],
+            // attendees: [{ email: 'Johnny.C.Alexander@gmail.com' }],
             reminders: {
               useDefault: false,
               overrides: [
@@ -118,6 +119,7 @@ class Calendar extends Component {
         [propertyName]: event.target.value,
       },
     });
+    console.log(this.state.start.dateTime);
   };
 
   render() {
@@ -144,11 +146,22 @@ class Calendar extends Component {
           />
           <TextField
             id="datetime-local"
-            label="Next Event"
+            label="Start Date"
             type="datetime-local"
             Value={this.state.start.dateTime}
             defaultValue="2020-01-01T10:30"
             onChange={this.handleInputChangeForDate('start', 'dateTime')}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="datetime-local"
+            label="End Date"
+            type="datetime-local"
+            Value={this.state.end.dateTime}
+            defaultValue="2020-02-03T11:30"
+            onChange={this.handleInputChangeForDate('end', 'dateTime')}
             InputLabelProps={{
               shrink: true,
             }}
