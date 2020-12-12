@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 
+//TO DO
+//New Users need to be able to add themselves to established events.
+//They'll receive notifications from google. This solves the original issue.
+
+//Need a way to share event with others.
+
+//Need to display current events assigned to Techie Calendar.
+
 class Calendar extends Component {
   state = {
     gapi: window.gapi,
@@ -35,6 +43,7 @@ class Calendar extends Component {
   };
 
   handleClick = () => {
+    //function that signs user in and creates google calendar event.
     this.state.gapi.load('client:auth2', () => {
       this.state.gapi.client.init({
         apiKey: process.env.REACT_APP_API_KEY,
@@ -55,7 +64,6 @@ class Calendar extends Component {
             summary: this.state.event.summary,
             location: this.state.event.location,
             description: this.state.event.description,
-            colorId: 'blue',
             start: {
               dateTime: new Date(this.state.start.dateTime), //new Date allows google to register dateTime picker
               timeZone: 'America/Chicago',
@@ -64,8 +72,7 @@ class Calendar extends Component {
               dateTime: new Date(this.state.end.dateTime),
               timeZone: 'America/Chicago',
             },
-            recurrence: ['RRULE:FREQ=WEEKLY;COUNT=1'],
-            // attendees: [{ email: 'Johnny.C.Alexander@gmail.com' }],
+            recurrence: ['RRULE:FREQ=WEEKLY;COUNT=1;INTERVAL=2'],
             reminders: {
               useDefault: false,
               overrides: [
@@ -83,7 +90,7 @@ class Calendar extends Component {
             console.log(event);
             window.open(event.htmlLink);
           });
-          // get events
+          // get events that already exist for that user
           this.state.gapi.client.calendar.events
             .list({
               calendarId: 'primary',
@@ -148,7 +155,7 @@ class Calendar extends Component {
             id="datetime-local"
             label="Start Date"
             type="datetime-local"
-            Value={this.state.start.dateTime}
+            // value={this.state.start.dateTime}
             defaultValue="2020-01-01T10:30"
             onChange={this.handleInputChangeForDate('start', 'dateTime')}
             InputLabelProps={{
@@ -159,7 +166,7 @@ class Calendar extends Component {
             id="datetime-local"
             label="End Date"
             type="datetime-local"
-            Value={this.state.end.dateTime}
+            // value={this.state.end.dateTime}
             defaultValue="2020-02-03T11:30"
             onChange={this.handleInputChangeForDate('end', 'dateTime')}
             InputLabelProps={{
@@ -168,7 +175,10 @@ class Calendar extends Component {
           />
         </div>
         <p>Click Here to join the biweekly meeting</p>
-        <button onClick={this.handleClick}>Try this one jackass</button>
+        <button onClick={this.handleClick}>Create New Event</button>
+        <form onSubmit={this.handleJoin}>
+          <button>Join Event</button>
+        </form>
       </div>
     );
   }
