@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MyCalendar from './MyCalendar';
 import { Button } from '@material-ui/core';
+import AddButton from './addButton';
 
 //TO DO
 //New Users need to be able to add themselves to established events.
@@ -174,6 +175,7 @@ class Calendar extends Component {
     return (
       <div>
         <div>
+          <AddButton />
           <TextField
             type="text"
             value={this.state.event.summary}
