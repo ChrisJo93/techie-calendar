@@ -1,4 +1,5 @@
 export default [
+  //test values for calendar display
   {
     title: 'All Day Event very long title',
     allDay: true,

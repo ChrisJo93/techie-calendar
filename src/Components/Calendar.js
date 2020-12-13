@@ -45,42 +45,42 @@ class Calendar extends Component {
     events: [],
   };
 
-  componentDidMount() {
-    //loading user's google events on page load
-    this.state.gapi.load('client:auth2', () => {
-      this.state.gapi.client.init({
-        apiKey: process.env.REACT_APP_API_KEY,
-        clientId: process.env.REACT_APP_CLIENT_ID,
-        discoveryDocs: this.state.DDocs,
-        scope: this.state.Scopes,
-      });
-      this.state.gapi.client.load('calendar', 'v3', () =>
-        console.log('Client Loaded')
-      );
+  //   componentDidMount() {
+  //     //loading user's google events on page load
+  //     this.state.gapi.load('client:auth2', () => {
+  //       this.state.gapi.client.init({
+  //         apiKey: process.env.REACT_APP_API_KEY,
+  //         clientId: process.env.REACT_APP_CLIENT_ID,
+  //         discoveryDocs: this.state.DDocs,
+  //         scope: this.state.Scopes,
+  //       });
+  //       this.state.gapi.client.load('calendar', 'v3', () =>
+  //         console.log('Client Loaded')
+  //       );
 
-      this.state.gapi.auth2
-        .getAuthInstance()
-        .signIn()
-        .then(() => {
-          this.state.gapi.client.calendar.events
-            .list({
-              calendarId: 'primary',
-              timeMin: new Date().toISOString(),
-              showDeleted: false,
-              singleEvents: true,
-              maxResults: 10,
-              orderBy: 'startTime',
-            })
-            .then((response) => {
-              const events = response.result.items;
-              this.setState({
-                events: [events],
-              });
-              console.log('EVENTS: ', events, this.state.events);
-            });
-        });
-    });
-  }
+  //       this.state.gapi.auth2
+  //         .getAuthInstance()
+  //         .signIn()
+  //         .then(() => {
+  //           this.state.gapi.client.calendar.events
+  //             .list({
+  //               calendarId: 'primary',
+  //               timeMin: new Date().toISOString(),
+  //               showDeleted: false,
+  //               singleEvents: true,
+  //               maxResults: 10,
+  //               orderBy: 'startTime',
+  //             })
+  //             .then((response) => {
+  //               const events = response.result.items;
+  //               this.setState({
+  //                 events: [events],
+  //               });
+  //               console.log(this.state.events);
+  //             });
+  //         });
+  //     });
+  //   }
 
   handleClick = () => {
     //function that signs user in and creates google calendar event.
@@ -143,9 +143,6 @@ class Calendar extends Component {
             })
             .then((response) => {
               const events = response.result.items;
-              this.setState({
-                events: events,
-              });
               console.log('EVENTS: ', events);
             });
           //
