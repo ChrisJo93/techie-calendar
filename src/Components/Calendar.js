@@ -178,7 +178,7 @@ class Calendar extends Component {
             type="text"
             value={this.state.event.summary}
             onChange={this.handleInputChangeFor('summary')}
-            placeholder="Summary"
+            placeholder="Title"
           />
           <TextField
             type="text"
