@@ -74,7 +74,9 @@ class AddButton extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.handleClick}>Testing original ask</Button>
+        <Button color="primary" variant="contained" onClick={this.handleClick}>
+          Join Event
+        </Button>
       </div>
     );
   }
