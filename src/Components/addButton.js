@@ -71,6 +71,7 @@ class AddButton extends Component {
         });
     });
   };
+
   render() {
     return (
       <div>
