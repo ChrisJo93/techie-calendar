@@ -12,11 +12,13 @@ class MyCalendar extends Component {
     view: 'week',
     date: new Date(2015, 3, 12),
   };
+
   render() {
     return (
       <div style={{ height: '700pt' }}>
         <Calendar
           events={this.state.events}
+          // onClick={console.log(this.state.events[0].title)}
           startAccessor="start"
           endAccessor="end"
           date={this.state.date}
