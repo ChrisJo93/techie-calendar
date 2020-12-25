@@ -14,25 +14,11 @@ class MyCalendar extends Component {
   };
   render() {
     return (
-      <div style={{ height: 700 }}>
-        <button onClick={() => this.setState({ view: 'day' })}>Day</button>
-        <button onClick={() => this.setState({ view: 'week' })}>Week</button>
-        <button onClick={() => this.setState({ view: 'month' })}>Month</button>
+      <div style={{ height: '700pt' }}>
         <Calendar
-          style={{ height: 500, width: 800, marginLeft: 315 }}
-          toolbar={false}
-          events={[
-            {
-              title: 'My event',
-              allDay: false,
-              start: new Date(2018, 0, 1, 10, 0), // 10.00 AM
-              end: new Date(2018, 0, 1, 14, 0), // 2.00 PM
-            },
-          ]}
-          step={60}
           events={this.state.events}
-          onView={() => {}}
-          view={this.state.view}
+          startAccessor="start"
+          endAccessor="end"
           date={this.state.date}
           onNavigate={(date) => this.setState({ date })}
           localizer={localizer}

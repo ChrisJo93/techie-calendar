@@ -36,3 +36,14 @@
   height: 400px;
   width: 400px;
 }
+
+.formPanel {
+  box-sizing: border-box;
+  width: 400px;
+  max-width: 100%;
+  padding: 25px;
+  margin: 40px auto 20px;
+  background-color: #efefef;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgb(0, 0, 0, 0.4);
+}

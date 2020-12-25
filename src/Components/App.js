@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Calendar from './Calendar';
+import Calendar from './inputField';
 import Footer from './footer';
 import Header from './header';
 import './App.css';
