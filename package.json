@@ -9,6 +9,7 @@
     "express": "^4.17.1",
     "googleapis": "^66.0.0",
     "moment": "^2.29.1",
+    "pg": "^8.5.1",
     "react": "^16.12.0",
     "react-big-calendar": "^0.30.0",
     "react-dom": "^16.12.0",
