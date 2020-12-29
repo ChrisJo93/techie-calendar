@@ -2,64 +2,43 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MyCalendar from './MyCalendar';
 import { Button } from '@material-ui/core';
-
-//TO DO
-//New Users need to be able to add themselves to established events.
-//They'll receive notifications from google. This solves the original issue.
-
-//Need a way to share event with others.
-
-//Need to display current events assigned to Techie Calendar.
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Year from './year';
 
 class Calendar extends Component {
   state = {
-    start: {
-      dateTime: '',
-      timeZone: 'America/Chicago',
-    },
-    end: {
-      dateTime: '',
-      timeZone: 'America/Chicago',
-    },
-    attendees: [
-      {
-        Email: '',
-      },
-    ],
-    reminders: {
-      useDefault: false,
-      overrides: [
-        { method: 'email', minutes: 24 * 60 },
-        { method: 'popup', minutes: 10 },
-      ],
-    },
     event: {
-      summary: '',
-      location: '',
-      description: '',
-      recurrence: [],
+      title: '',
+      start: '',
+      end: '',
+      desc: '',
+      allDay: null,
     },
-    events: [],
+    date: new Date().toISOString(),
   };
+
+  componentDidMount() {
+    console.log(this.state.date);
+  }
 
   handleInputChangeFor = (propertyName) => (event) => {
     this.setState({
-      event: {
-        ...this.state.event,
-        [propertyName]: event.target.value,
-      },
+      [propertyName]: event.target.value,
     });
   };
 
-  handleInputChangeForDate = (key, propertyName) => (event) => {
+  handleInputChangeForDate = (propertyName) => (event) => {
     //pulling value from date picker
     this.setState({
-      [key]: {
-        ...this.state.start,
-        [propertyName]: event.target.value,
-      },
+      [propertyName]: event.target.value,
     });
-    console.log(this.state.start.dateTime);
+  };
+
+  postDate = (event) => {
+    axios.post('/date', this.state.event);
+    Swal.fire(`${this.state.event.title} event added to Calendar`, 'success');
+    console.log(this.state, 'here the package');
   };
 
   render() {
@@ -68,29 +47,28 @@ class Calendar extends Component {
         <div className="formPanel">
           <TextField
             type="text"
-            value={this.state.event.summary}
-            onChange={this.handleInputChangeFor('summary')}
-            placeholder="Title"
+            value={this.state.title}
+            onChange={this.handleInputChangeFor('title')}
+            label="Title"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <TextField
             type="text"
-            value={this.state.event.location}
-            onChange={this.handleInputChangeFor('location')}
-            placeholder="Location"
-          />
-          <TextField
-            type="text"
-            value={this.state.event.description}
-            onChange={this.handleInputChangeFor('description')}
-            placeholder="Description"
+            value={this.state.desc}
+            onChange={this.handleInputChangeFor('desc')}
+            label="Description"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <TextField
             id="datetime-local"
             label="Start Date"
             type="datetime-local"
-            // value={this.state.start.dateTime}
-            defaultValue="2020-01-01T10:30"
-            onChange={this.handleInputChangeForDate('start', 'dateTime')}
+            defaultValue={this.state.date}
+            onChange={this.handleInputChangeForDate('start')}
             InputLabelProps={{
               shrink: true,
             }}
@@ -99,16 +77,16 @@ class Calendar extends Component {
             id="datetime-local"
             label="End Date"
             type="datetime-local"
-            // value={this.state.end.dateTime}
-            defaultValue="2020-01-01T10:30"
-            onChange={this.handleInputChangeForDate('end', 'dateTime')}
+            defaultValue={this.state.date}
+            onChange={this.handleInputChangeForDate('end')}
             InputLabelProps={{
               shrink: true,
             }}
           />
+          <Button onClick={this.postDate}>Save</Button>
         </div>
 
-        <MyCalendar events={this.state.events} />
+        <MyCalendar />
       </div>
     );
   }
