@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 
@@ -117,8 +117,8 @@ class Calendar extends React.Component {
 
 class Year extends React.Component {
   render() {
-    let { date, ...props } = this.props;
-    let range = Year.range(date);
+    let { date } = this.props;
+
     const months = [];
     const firstMonth = dates.startOf(date, 'year');
 
@@ -131,6 +131,10 @@ class Year extends React.Component {
     return <div className="year">{months.map((month) => month)}</div>;
   }
 }
+
+// day.propTypes = {
+//   date: PropTypes.instanceOf(Date).isRequired,
+// };
 
 Year.range = (date) => {
   return [dates.startOf(date, 'year')];

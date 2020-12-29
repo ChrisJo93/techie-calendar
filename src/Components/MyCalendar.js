@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import events from './events';
-import Year from './Year';
+import Year from './year';
 
 const localizer = momentLocalizer(moment);
 localizer.formats.yearHeaderFormat = 'YYYY';
