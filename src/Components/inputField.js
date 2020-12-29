@@ -37,8 +37,11 @@ class Calendar extends Component {
 
   postDate = (event) => {
     axios.post('/date', this.state.event);
-    Swal.fire(`${this.state.event.title} event added to Calendar`, 'success');
-    console.log(this.state, 'here the package');
+    Swal.fire(
+      `${this.state.event.title} added!`,
+      'Your Event was added to the Calendar',
+      'success'
+    );
   };
 
   render() {
